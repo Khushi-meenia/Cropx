@@ -1,0 +1,284 @@
+/* 🌿 FULL PAGE LAYOUT */
+.login-page {
+  display: flex;
+   position: relative;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e8f5e9, #f1fff4);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 🌿 HERO SECTION — split into content + image */
+.hero-section {
+  display: flex;
+  flex-direction: row; /* side by side */
+  justify-content: space-between;
+  align-items: center;
+  flex: 1.8;
+  padding: 3rem;
+  position: relative;
+}
+
+/* Hero content (title + subtitle + search box) */
+.hero-content {
+  flex: 0.7; /* 70% width */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Hero Title + Subtitle */
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #14532d;
+  margin-bottom: 0.5rem;
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #256f3a;
+  margin-bottom: 2rem;
+}
+
+/* Search Box */
+.hero-search-box {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem; /* increased for spacing from floating image */
+}
+
+.hero-search-box input {
+  flex: 1;
+  padding: 0.9rem;
+  border-radius: 0.6rem;
+  border: 1px solid #bcdcc2;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.hero-search-box input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 2px rgba(22,163,74,0.25);
+}
+
+.hero-search-btn {
+  padding: 0.9rem 1.5rem;
+  background: #16a34a;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.hero-search-btn:hover {
+  background: #15803d;
+}
+
+/* Floating image */
+.floating-image-box {
+  flex: 0.3; /* 30% width */
+  position: relative;
+  height: 400px; /* increased height */
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  margin-left: 1rem; /* spacing from hero content/login button */
+}
+
+.floating-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.6s ease-in-out;
+}
+
+.floating-tag {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: #16a34a;
+  color: white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* 🌿 LOGIN CARD (RIGHT SIDE) */
+.login-card {
+  flex: 1;
+  max-width: 380px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+  animation: fadeSlide 0.6s ease forwards;
+}
+
+@keyframes fadeSlide {
+  0% { opacity: 0; transform: translateY(30px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Tabs */
+.tab-buttons {
+  display: flex;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid #cce3d4;
+}
+
+.tab-buttons button {
+  flex: 1;
+  padding: 0.8rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.active {
+  background: #16a34a;
+  color: #fff;
+}
+
+.inactive {
+  background: #fff;
+  color: #15803d;
+}
+
+.inactive:hover {
+  background: #d1fae5;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #374151;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  outline: none;
+  transition: 0.3s ease;
+}
+
+.form-group input:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 2px rgba(22,163,74,0.25);
+}
+
+/* Submit */
+.submit-btn {
+  width: 100%;
+  padding: 0.85rem;
+  border: none;
+  background: #16a34a;
+  color: white;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: 0.3s ease;
+  box-shadow: 0 5px 18px rgba(0,0,0,0.15);
+}
+
+.submit-btn:hover {
+  background: #15803d;
+}
+
+/* Toggle */
+.toggle-text {
+  text-align: center;
+  margin-top: 1.2rem;
+}
+
+.toggle-text button {
+  background: none;
+  border: none;
+  color: #16a34a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.toggle-text button:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 950px) {
+  .login-page {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .hero-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .hero-content {
+    width: 100%;
+    flex: 1;
+    text-align: center;
+  }
+
+  .floating-image-box {
+    flex: 1;
+    width: 80%;
+    height: 450px; /* slightly taller on mobile */
+    margin-top: 2rem;
+    margin-left: 0; /* reset margin for mobile */
+  }
+
+  .login-card {
+    margin-top: 1.5rem;
+  }
+  /* Header: CropX Title + Slogan at Top-Left */
+/*.hero-header {
+ /* all: unset;           /* resets inherited and default styles */
+  /*position: absolute;   /* independent positioning */
+  /*top: 1rem;
+  left: 1rem;
+  z-index: 100;         /* above everything */
+  /*display: block;       /* reapply display */
+  /*text-align: left;     /* reapply any text alignment */
+  /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* reapply font */
+  /*color: black;         /* or whatever color you want */
+/*}*/
+
+
+/*.site-title {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #000000; /* black */
+ /* margin-bottom: 0.2rem;
+}*/
+
+/*.site-slogan {
+  font-size: 1rem;
+  color: #14532d; /* greenish slogan */
+ /* font-style: italic;
+  margin: 0;
+}*/
+
+}

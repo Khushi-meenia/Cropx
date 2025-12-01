@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crop Prediction</title>
+</head>
+<body>
+  <h2>Crop Prediction Form</h2>
+
+  <form id="cropForm">
+    Nitrogen: <input type="number" id="Nitrogen"><br><br>
+    Phosphorus: <input type="number" id="Phosphorus"><br><br>
+    Potassium: <input type="number" id="Potassium"><br><br>
+    Temperature: <input type="number" id="Temperature"><br><br>
+    Humidity: <input type="number" id="Humidity"><br><br>
+    pH Value: <input type="number" step="0.1" id="pH_Value"><br><br>
+    Rainfall: <input type="number" id="Rainfall"><br><br>
+
+    Soil Type:
+    <select id="Soil_Type">
+      <option value="Loamy">Loamy</option>
+      <option value="Clay">Clay</option>
+      <option value="Sandy">Sandy</option>
+    </select><br><br>
+
+    Variety:
+    <select id="Variety">
+      <option value="Hybrid">Hybrid</option>
+      <option value="Normal">Normal</option>
+    </select><br><br>
+
+    <button type="button" onclick="predictCrop()">Predict Crop</button>
+  </form>
+
+  <h3 id="result"></h3>
+
+  <script>
+    async function predictCrop() {
+
+      let soil = document.getElementById("Soil_Type").value;
+      let variety = document.getElementById("Variety").value;
+
+      let data = {
+        Nitrogen: Number(document.getElementById("Nitrogen").value),
+        Phosphorus: Number(document.getElementById("Phosphorus").value),
+        Potassium: Number(document.getElementById("Potassium").value),
+        Temperature: Number(document.getElementById("Temperature").value),
+        Humidity: Number(document.getElementById("Humidity").value),
+        pH_Value: Number(document.getElementById("pH_Value").value),
+        Rainfall: Number(document.getElementById("Rainfall").value),
+
+        Soil_Type_Loamy: soil === "Loamy" ? 1 : 0,
+        Soil_Type_Clay: soil === "Clay" ? 1 : 0,
+        Soil_Type_Sandy: soil === "Sandy" ? 1 : 0,
+
+        Variety_Hybrid: variety === "Hybrid" ? 1 : 0,
+        Variety_Normal: variety === "Normal" ? 1 : 0,
+      };
+
+      let response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      });
+
+      let result = await response.json();
+      document.getElementById("result").innerText = "Recommended Crop: " + result.crop;
+    }
+  </script>
+
+</body>
+</html>
