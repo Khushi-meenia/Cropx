@@ -34,39 +34,24 @@ interface FormState {
   Variety_Yukon_Gold: number;
 }
 
+const nutrientInfo: { [key: string]: string } = {
+  Nitrogen: "Nitrogen is essential for leaf growth and green coloration. Enter its current level in your soil.",
+  Phosphorus: "Phosphorus supports root development and flowering. Provide its present soil value.",
+  Potassium: "Potassium helps in water regulation and overall plant health. Enter its level in the soil.",
+  Temperature: "Optimal temperature ensures proper crop growth. Enter the current temperature in °C.",
+  Humidity: "Humidity affects transpiration and disease occurrence. Enter the current relative humidity (%).",
+  pH_Value: "Soil pH affects nutrient availability. Enter the current soil pH value.",
+  Rainfall: "Rainfall impacts irrigation needs. Enter recent rainfall in mm.",
+};
+
 const PredictCrop: React.FC = () => {
   const [form, setForm] = useState<FormState>({
-    Nitrogen: "",
-    Phosphorus: "",
-    Potassium: "",
-    Temperature: "",
-    Humidity: "",
-    pH_Value: "",
-    Rainfall: "",
-    Soil_Type_Clay: 0,
-    Soil_Type_Loamy: 0,
-    Soil_Type_Peaty: 0,
-    Soil_Type_Saline: 0,
-    Soil_Type_Sandy: 0,
-    Soil_Type_Silt: 0,
-    Variety_Arborio: 0,
-    Variety_Basmati: 0,
-    Variety_Beefsteak: 0,
-    Variety_Cherry: 0,
-    Variety_Co_0238: 0,
-    Variety_Co_86032: 0,
-    Variety_Co_99004: 0,
-    Variety_Dent: 0,
-    Variety_Durum: 0,
-    Variety_Flint: 0,
-    Variety_Hard_Red: 0,
-    Variety_Jasmine: 0,
-    Variety_Red: 0,
-    Variety_Roma: 0,
-    Variety_Russet: 0,
-    Variety_Soft_Red: 0,
-    Variety_Sweet: 0,
-    Variety_Yukon_Gold: 0,
+    Nitrogen: "", Phosphorus: "", Potassium: "", Temperature: "", Humidity: "", pH_Value: "", Rainfall: "",
+    Soil_Type_Clay: 0, Soil_Type_Loamy: 0, Soil_Type_Peaty: 0, Soil_Type_Saline: 0, Soil_Type_Sandy: 0, Soil_Type_Silt: 0,
+    Variety_Arborio: 0, Variety_Basmati: 0, Variety_Beefsteak: 0, Variety_Cherry: 0, Variety_Co_0238: 0,
+    Variety_Co_86032: 0, Variety_Co_99004: 0, Variety_Dent: 0, Variety_Durum: 0, Variety_Flint: 0,
+    Variety_Hard_Red: 0, Variety_Jasmine: 0, Variety_Red: 0, Variety_Roma: 0, Variety_Russet: 0,
+    Variety_Soft_Red: 0, Variety_Sweet: 0, Variety_Yukon_Gold: 0,
   });
 
   const [result, setResult] = useState<string>("");
@@ -74,7 +59,6 @@ const PredictCrop: React.FC = () => {
   const handleChange = (e: any) => {
     const { name, value } = e.target;
 
-    // SOIL
     if (name === "soil") {
       setForm({
         ...form,
@@ -88,13 +72,11 @@ const PredictCrop: React.FC = () => {
       return;
     }
 
-    // VARIETY
     if (name === "variety") {
       const reset = Object.keys(form).reduce((acc: any, key) => {
         if (key.startsWith("Variety_")) acc[key] = 0;
         return acc;
       }, {});
-
       setForm({
         ...form,
         ...reset,
@@ -116,67 +98,54 @@ const PredictCrop: React.FC = () => {
     setResult(data.crop);
   };
 
+  const handleAddCrop = async () => {
+    if (!result) return alert("Predict a crop first to add");
+    await fetch("http://127.0.0.1:5000/add_crop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cropName: result, farmerName: "Farmer1" }),
+    });
+    alert(`Crop "${result}" added successfully!`);
+  };
+
+  const handleSelectCrop = async () => {
+    if (!result) return alert("No crop selected to save");
+    await fetch("http://127.0.0.1:5000/add_crop", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cropName: result, farmerName: "Farmer1" }),
+    });
+    alert(`Crop "${result}" saved to database!`);
+  };
+
+  // --- Styles ---
+  const cardStyle: React.CSSProperties = { backgroundColor: "#ffffff", borderRadius: 20, padding: 25, boxShadow: "0 8px 20px rgba(0,0,0,0.1)", marginBottom: 20 };
+  const inputStyle: React.CSSProperties = { width: "100%", padding: 12, borderRadius: 12, border: "1px solid #c3dec1", marginTop: 8, outline: "none" };
+  const buttonStyle: React.CSSProperties = { padding: "10px 20px", borderRadius: 10, border: "none", backgroundColor: "#27ae60", color: "#fff", fontWeight: "bold", cursor: "pointer", marginLeft: 10 };
+  const containerStyle: React.CSSProperties = { minHeight: "100vh", backgroundColor: "#eaf7e8", padding: 40, fontFamily: "Arial, sans-serif", display: "flex", flexDirection: "column", alignItems: "center" };
+  const resultStyle: React.CSSProperties = { marginTop: 30, padding: 25, backgroundColor: "#d4f6e7", borderRadius: 20, maxWidth: 600, fontSize: 20, fontWeight: "bold", textAlign: "center", boxShadow: "0 6px 15px rgba(0,0,0,0.1)" };
+
   return (
-    <div
-      style={{
-        padding: "40px",
-        minHeight: "100vh",
-        backgroundColor: "#eaf7e8",
-        fontFamily: "Arial",
-      }}
-    >
-      <h1 style={{ color: "#1c3c1d", fontSize: "32px", marginBottom: "10px" }}>
-        🌱 Crop Prediction
-      </h1>
+    <div style={containerStyle}>
+      <div style={{ width: "100%", maxWidth: 600, display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+        <h1 style={{ color: "#1c3c1d", fontSize: 36, fontWeight: "bold" }}>🌱 Crop Prediction</h1>
+        <button style={buttonStyle} onClick={handleAddCrop}>Add New Crop</button>
+      </div>
 
-      <div
-        style={{
-          padding: "25px",
-          backgroundColor: "white",
-          borderRadius: "14px",
-          maxWidth: "500px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-        }}
-      >
-        {["Nitrogen", "Phosphorus", "Potassium", "Temperature", "Humidity", "pH_Value", "Rainfall"].map(
-          (inputName) => (
-            <div key={inputName} style={{ marginBottom: "20px" }}>
-              <label style={{ fontWeight: "bold", color: "#1c3c1d" }}>
-                {inputName}
-              </label>
-              <input
-                type="number"
-                name={inputName}
-                value={form[inputName as keyof FormState]}
-                onChange={handleChange}
-                style={{
-                  width: "100%",
-                  padding: "12px",
-                  marginTop: "6px",
-                  borderRadius: "10px",
-                  border: "1px solid #c3dec1",
-                }}
-              />
-            </div>
-          )
-        )}
+      <div style={{ maxWidth: 600, width: "100%" }}>
+        {Object.keys(nutrientInfo).map((key) => (
+          <div key={key} style={cardStyle}>
+            <h2 style={{ fontSize: 22, fontWeight: "bold", color: "#1c3c1d", marginBottom: 8 }}>{key}</h2>
+            <p style={{ color: "#386641", marginBottom: 12 }}>{nutrientInfo[key]}</p>
+            <input type="number" name={key} value={form[key as keyof FormState]} onChange={handleChange} style={inputStyle} />
+          </div>
+        ))}
 
-        {/* SOIL TYPE */}
-        <div style={{ marginBottom: "20px" }}>
-          <label style={{ fontWeight: "bold", color: "#1c3c1d" }}>
-            Soil Type
-          </label>
-          <select
-            name="soil"
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "12px",
-              marginTop: "6px",
-              borderRadius: "10px",
-              border: "1px solid #c3dec1",
-            }}
-          >
+        {/* Soil Type */}
+        <div style={cardStyle}>
+          <h2 style={{ fontSize: 22, fontWeight: "bold", color: "#1c3c1d", marginBottom: 8 }}>Soil Type</h2>
+          <p style={{ color: "#386641", marginBottom: 12 }}>Select your soil type. Different crops prefer different soils.</p>
+          <select name="soil" onChange={handleChange} style={inputStyle}>
             <option value="">Select Soil</option>
             <option value="Clay">Clay</option>
             <option value="Loamy">Loamy</option>
@@ -187,23 +156,12 @@ const PredictCrop: React.FC = () => {
           </select>
         </div>
 
-        {/* VARIETY */}
-        <div style={{ marginBottom: "20px" }}>
-          <label style={{ fontWeight: "bold", color: "#1c3c1d" }}>
-            Variety
-          </label>
-          <select
-            name="variety"
-            onChange={handleChange}
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: "10px",
-              border: "1px solid #c3dec1",
-            }}
-          >
+        {/* Variety */}
+        <div style={cardStyle}>
+          <h2 style={{ fontSize: 22, fontWeight: "bold", color: "#1c3c1d", marginBottom: 8 }}>Crop Variety</h2>
+          <p style={{ color: "#386641", marginBottom: 12 }}>Select the crop variety you plan to grow or are interested in.</p>
+          <select name="variety" onChange={handleChange} style={inputStyle}>
             <option value="">Select Variety</option>
-
             <option value="Arborio">Arborio</option>
             <option value="Basmati">Basmati</option>
             <option value="Beefsteak">Beefsteak</option>
@@ -225,37 +183,15 @@ const PredictCrop: React.FC = () => {
           </select>
         </div>
 
-        <button
-          onClick={handlePredict}
-          style={{
-            width: "100%",
-            padding: "14px",
-            backgroundColor: "#27ae60",
-            color: "white",
-            fontSize: "18px",
-            borderRadius: "10px",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Predict Crop
-        </button>
-      </div>
+        <button onClick={handlePredict} style={{ ...buttonStyle, width: "100%", marginTop: 10 }}>Predict Crop</button>
 
-      {result && (
-        <div
-          style={{
-            marginTop: "30px",
-            padding: "25px",
-            backgroundColor: "#d4f6e7",
-            borderRadius: "14px",
-            maxWidth: "500px",
-            fontSize: "20px",
-          }}
-        >
-          🌾 Recommended Crop: <b>{result}</b>
-        </div>
-      )}
+        {result && (
+          <>
+            <div style={resultStyle}>🌾 Recommended Crop: <span style={{ fontWeight: "900" }}>{result}</span></div>
+            <button onClick={handleSelectCrop} style={{ ...buttonStyle, width: "100%", marginTop: 15 }}>Select Crop</button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

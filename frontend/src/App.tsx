@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// Import pages
 import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import PredictCrop from "./pages/PredictCrop";  // <-- ADD THIS
+import Dashboard from "./pages/dashboard";
+import PredictCrop from "./pages/PredictCrop";
+import ChatWithAI from "./pages/ChatWithAI";
+import Lifespan from "./pages/Lifespan";
+import WeatherInfo from "./pages/WeatherInfo";
+import FarmerFriends from "./pages/FarmerFriends";
 
 const App: React.FC = () => {
   const fullText = "Welcome to CropX";
@@ -11,6 +16,7 @@ const App: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [zoom, setZoom] = useState(false);
 
+  // Typewriter effect for splash screen
   useEffect(() => {
     let index = 0;
     const interval = setInterval(() => {
@@ -26,6 +32,7 @@ const App: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Show Login after zoom animation
   useEffect(() => {
     if (zoom) {
       const timer = setTimeout(() => setShowLogin(true), 700);
@@ -33,7 +40,7 @@ const App: React.FC = () => {
     }
   }, [zoom]);
 
-  // Splash Screen Component
+  // Splash Screen JSX
   const SplashScreen = (
     <div
       style={{
@@ -61,19 +68,35 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        
         {/* Splash → Login */}
-        <Route
-          path="/"
-          element={showLogin ? <Login /> : SplashScreen}
-        />
+        <Route path="/" element={showLogin ? <Login /> : SplashScreen} />
 
         {/* Dashboard */}
         <Route path="/dashboard" element={<Dashboard />} />
 
-        {/* Predict Crop Page */}
+        {/* Predict Crop */}
         <Route path="/predict-crop" element={<PredictCrop />} />
 
+        {/* Chat With AI */}
+        <Route path="/chat-ai" element={<ChatWithAI />} />
+
+        {/* Lifespan Page with default props */}
+        <Route
+          path="/life-span"
+          element={
+            <Lifespan
+              cropName="Tomato"
+              daysLeft={45}
+              messages={["Water daily", "Fertilize weekly", "Check for pests"]}
+            />
+          }
+        />
+
+        {/* Weather Info Page */}
+        <Route path="/weather" element={<WeatherInfo />} />
+
+        {/* Farmer Friends Page */}
+        <Route path="/farmer-friends" element={<FarmerFriends />} />
       </Routes>
     </Router>
   );

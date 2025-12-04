@@ -14,22 +14,7 @@ const WeatherInfo: React.FC = () => {
   const [city, setCity] = useState("Delhi");
   const [coords, setCoords] = useState({ lat: 28.6139, lon: 77.2090 });
 
-  // Fetch Weather Function
-  const getWeather = async () => {
-    setLoading(true);
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current_weather=true`;
-    const res = await fetch(url);
-    const data = await res.json();
-    setWeather(data.current_weather);
-    setLoading(false);
-  };
-
-  // Fetch on first load
-  useEffect(() => {
-    getWeather();
-  }, []);
-
-  // Change city function (simple presets)
+  // Available Cities & Coordinates
   const cityCoords: Record<string, { lat: number; lon: number }> = {
     Delhi: { lat: 28.6139, lon: 77.2090 },
     Mumbai: { lat: 19.0760, lon: 72.8777 },
@@ -37,10 +22,40 @@ const WeatherInfo: React.FC = () => {
     Chennai: { lat: 13.0827, lon: 80.2707 },
   };
 
-  const handleCityChange = (c: string) => {
-    setCity(c);
-    setCoords(cityCoords[c]);
-    setTimeout(() => getWeather(), 200);
+  // Fetch Weather Function
+  const getWeather = async () => {
+    try {
+      setLoading(true);
+
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current_weather=true`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.current_weather) {
+        setWeather(data.current_weather);
+      }
+
+      setLoading(false);
+    } catch (err) {
+      console.log("Weather Fetch Error:", err);
+      setLoading(false);
+    }
+  };
+
+  // Load initial weather data
+  useEffect(() => {
+    console.log("WeatherInfo Page Mounted");
+    getWeather();
+  }, []);
+
+  // Reload weather when city changes
+  useEffect(() => {
+    getWeather();
+  }, [coords]);
+
+  const handleCityChange = (cityName: string) => {
+    setCity(cityName);
+    setCoords(cityCoords[cityName]);
   };
 
   return (
@@ -84,7 +99,7 @@ const WeatherInfo: React.FC = () => {
         </select>
       </div>
 
-      {/* Weather Box */}
+      {/* Weather Box UI */}
       <div
         style={{
           background: "white",

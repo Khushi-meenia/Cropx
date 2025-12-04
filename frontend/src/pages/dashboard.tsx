@@ -5,34 +5,35 @@ type CardItem = {
   key: string;
   title: string;
   subtitle?: string;
-  img?: string; // e.g. "/images/predict.png"
+  img?: string; // relative to public folder
   route: string;
 };
 
 const CARDS: CardItem[] = [
-  { key: "predict", title: "Predict Crop", subtitle: "Get best crop", img: "/images/predict.png", route: "/predict-crop" },
-  { key: "lifespan", title: "Check Life Span", subtitle: "Crop life info", img: "/images/lifespan.png", route: "/life-span" },
-  { key: "chat", title: "Chat with AI", subtitle: "Ask farming questions", img: "/images/chat.png", route: "/chat-ai" },
-  { key: "fertilizer", title: "Fertilizer Recommendation", subtitle: "NPK advice", img: "/images/fertilizer.png", route: "/fertilizer" },
-  { key: "soil", title: "Soil Health", subtitle: "Soil test & tips", img: "/images/soil.png", route: "/soil-health" },
-  { key: "weather", title: "Weather Info", subtitle: "Forecast & alerts", img: "/images/weather.png", route: "/weather" },
-  { key: "friends", title: "Farmer Friends", subtitle: "Community", img: "/images/friends.png", route: "/farmer-friends" },
+  { key: "predict", title: "Predict Crop", subtitle: "Get best crop", img: "/1st crop.jpg", route: "/predict-crop" },
+  { key: "lifespan", title: "Check Life Span", subtitle: "Crop life info", img: "/lifespan.png", route: "/life-span" },
+  { key: "chat", title: "Chat with AI", subtitle: "Ask farming questions", img: "/chatwithai.png", route: "/chat-ai" },
+  { key: "fertilizer", title: "Fertilizer Recommendation", subtitle: "NPK advice", img: "/fertilizer.png", route: "/fertilizer" },
+  { key: "soil", title: "Soil Health", subtitle: "Soil test & tips", img: "/soil.png", route: "/soil-health" },
+  { key: "weather", title: "Weather Info", subtitle: "Forecast & alerts", img: "/weather.png", route: "/weather" },
+  { key: "friends", title: "Farmer Friends", subtitle: "Community", img: "/farmerfriend.png", route: "/farmer-friends" },
 ];
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
+  const fallbackImage = "/default.png"; // make sure you have this in public
+
   return (
     <div
       style={{
         minHeight: "100vh",
         fontFamily: "Inter, Arial, sans-serif",
-        backgroundColor: "#eaf7e8", // background below header (light green)
+        backgroundColor: "#eaf7e8",
         color: "#13321a",
       }}
     >
-      {/* Top header (white) */}
       <header
         style={{
           backgroundColor: "#ffffff",
@@ -46,7 +47,6 @@ const Dashboard: React.FC = () => {
           zIndex: 50,
         }}
       >
-        {/* Left - CropX logo box */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <div
             style={{
@@ -66,13 +66,9 @@ const Dashboard: React.FC = () => {
             CropX
           </div>
         </div>
-
-        {/* Center - Title */}
         <div style={{ flex: 1, textAlign: "center" }}>
           <div style={{ fontSize: 20, fontWeight: 700, color: "#13321a" }}>Dashboard Menu</div>
         </div>
-
-        {/* Right - Logout */}
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
           <button
             onClick={() => {
@@ -104,14 +100,12 @@ const Dashboard: React.FC = () => {
         </div>
       </header>
 
-      {/* Content area with consistent padding */}
       <main style={{ padding: "28px", maxWidth: 1200, margin: "0 auto" }}>
         <section style={{ marginBottom: 18 }}>
           <h1 style={{ margin: 0, color: "#13321a", fontSize: 28, fontWeight: 800 }}>Choose an option</h1>
           <p style={{ marginTop: 6, color: "#45604a", marginBottom: 18 }}>Click any card to open the page</p>
         </section>
 
-        {/* Cards grid */}
         <section
           style={{
             display: "grid",
@@ -148,7 +142,6 @@ const Dashboard: React.FC = () => {
                   border: "1px solid rgba(0,0,0,0.02)",
                 }}
               >
-                {/* Image area */}
                 <div
                   style={{
                     width: "100%",
@@ -162,21 +155,16 @@ const Dashboard: React.FC = () => {
                     justifyContent: "center",
                   }}
                 >
-                  {card.img ? (
-                    <img
-                      src={card.img}
-                      alt={card.title}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = "none";
-                      }}
-                    />
-                  ) : (
-                    <div style={{ color: "#9aa69a", fontWeight: 700 }}>{card.title}</div>
-                  )}
+                  <img
+                    src={card.img || fallbackImage}
+                    alt={card.title}
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = fallbackImage;
+                    }}
+                  />
                 </div>
 
-                {/* Title & subtitle */}
                 <div style={{ textAlign: "center", marginTop: 6 }}>
                   <div style={{ fontSize: 18, fontWeight: 800, color: "#13321a" }}>{card.title}</div>
                   {card.subtitle && <div style={{ fontSize: 13, color: "#556a60", marginTop: 6 }}>{card.subtitle}</div>}
