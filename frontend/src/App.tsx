@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import PredictCrop from "./pages/PredictCrop";  // <-- ADD THIS
 
 const App: React.FC = () => {
   const fullText = "Welcome to CropX";
@@ -9,10 +13,8 @@ const App: React.FC = () => {
 
   useEffect(() => {
     let index = 0;
-
     const interval = setInterval(() => {
       if (index <= fullText.length) {
-        // slice ensures we never access undefined
         setDisplayedText(fullText.slice(0, index));
         index++;
       } else {
@@ -31,11 +33,8 @@ const App: React.FC = () => {
     }
   }, [zoom]);
 
-  if (showLogin) {
-    return <Login />;
-  }
-
-  return (
+  // Splash Screen Component
+  const SplashScreen = (
     <div
       style={{
         display: "flex",
@@ -57,6 +56,26 @@ const App: React.FC = () => {
         {displayedText}
       </h1>
     </div>
+  );
+
+  return (
+    <Router>
+      <Routes>
+        
+        {/* Splash → Login */}
+        <Route
+          path="/"
+          element={showLogin ? <Login /> : SplashScreen}
+        />
+
+        {/* Dashboard */}
+        <Route path="/dashboard" element={<Dashboard />} />
+
+        {/* Predict Crop Page */}
+        <Route path="/predict-crop" element={<PredictCrop />} />
+
+      </Routes>
+    </Router>
   );
 };
 
