@@ -9,6 +9,7 @@ import ChatWithAI from "./pages/ChatWithAI";
 import Lifespan from "./pages/Lifespan";
 import WeatherInfo from "./pages/WeatherInfo";
 import FarmerFriends from "./pages/farmerfriends";
+import SoilHealth from "./pages/SoilHealth";
 
 const App: React.FC = () => {
   const fullText = "Welcome to CropX";
@@ -95,6 +96,8 @@ const App: React.FC = () => {
 
         {/* Farmer Friends Page */}
         <Route path="/farmer-friends" element={<FarmerFriends />} />
+        {/* Soil Health Page */}
+        <Route path="/soil-health" element={<SoilHealth />} />
       </Routes>
     </Router>
   );
