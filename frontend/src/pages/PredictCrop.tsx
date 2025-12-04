@@ -129,7 +129,7 @@ const PredictCrop: React.FC = () => {
     <div style={containerStyle}>
       <div style={{ width: "100%", maxWidth: 600, display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
         <h1 style={{ color: "#1c3c1d", fontSize: 36, fontWeight: "bold" }}>🌱 Crop Prediction</h1>
-        <button style={buttonStyle} onClick={handleAddCrop}>Add New Crop</button>
+        
       </div>
 
       <div style={{ maxWidth: 600, width: "100%" }}>
@@ -188,7 +188,7 @@ const PredictCrop: React.FC = () => {
         {result && (
           <>
             <div style={resultStyle}>🌾 Recommended Crop: <span style={{ fontWeight: "900" }}>{result}</span></div>
-            <button onClick={handleSelectCrop} style={{ ...buttonStyle, width: "100%", marginTop: 15 }}>Select Crop</button>
+           
           </>
         )}
       </div>

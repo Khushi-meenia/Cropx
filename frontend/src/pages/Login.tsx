@@ -15,7 +15,7 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  const images = ["./1st crop.jpg", "./crop 2.avif", "./crop3.webp"];
+  const images = ["./1st crop.jpg", "./crop 2.png", "./crop3.webp"];
 
   const toggleForm = () => {
     setIsLogin(!isLogin);
@@ -37,7 +37,7 @@ export default function Login() {
     return (
       <div className="floating-image-box">
         <img src={images[currentImage]} alt="hero" />
-        <div className="floating-tag">better crop</div>
+        <div className="floating-tag">cropx</div>
       </div>
     );
   }
@@ -50,8 +50,6 @@ export default function Login() {
         <p className="hero-subtitle">Your Soil, Your Climate, Your Perfect Crop</p>
 
         <div className="hero-search-box">
-          <input type="text" placeholder="Crop Type" />
-          <input type="text" placeholder="Location" />
           <button className="hero-search-btn" onClick={() => setShowLoginCard(true)}>
             Login
           </button>

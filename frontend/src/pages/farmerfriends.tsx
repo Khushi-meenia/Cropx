@@ -5,144 +5,211 @@ interface Post {
   user: string;
   text: string;
   created_at: string;
-  comments: CommentType[];
+  options?: { text: string; response: string }[];
 }
 
-interface CommentType {
-  id: number;
-  post_id: number;
-  user: string;
-  text: string;
-  created_at: string;
-  replies: ReplyType[];
-}
 
-interface ReplyType {
-  id: number;
-  comment_id: number;
-  user: string;
-  text: string;
-  created_at: string;
-}
 
-const FarmerFriends: React.FC = () => {
+const AUTO_MESSAGES: Post[] = [
+  {
+    id: 1,
+    user: "Farmer Friend",
+    text: "Good morning! 🌞 I just checked my wheat field. The crops look strong and healthy.",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Did you sow good seeds?", response: "Yes, I used certified high-yield wheat seeds 🌾." },
+      { text: "Any fertilization done?", response: "I applied humus; it’s better than chemical fertilizer. 🌱" },
+    ],
+  },
+  {
+    id: 2,
+    user: "Farmer Friend",
+    text: "I am planning to sow basmati rice this season. Heard it gives good profit. 💰",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Yes, Basmati rice is good", response: "Exactly! It grows well in our soil type." },
+      { text: "Try hybrid seeds too?", response: "Hybrid seeds can give faster growth, but need careful irrigation. 💧" },
+    ],
+  },
+  {
+    id: 3,
+    user: "Farmer Friend",
+    text: "The soil seems a bit dry today. I need to irrigate the maize field.",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Use drip irrigation", response: "Yes, drip saves water and feeds crops efficiently. 💦" },
+      { text: "Water manually", response: "Manual watering works but consumes more time. ⏱️" },
+    ],
+  },
+  {
+    id: 4,
+    user: "Farmer Friend",
+    text: "I saw some pests in my tomato plants. 🐛",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Spray neem oil", response: "Neem oil works great naturally without chemicals. 🌿" },
+      { text: "Use pesticide", response: "Pesticide helps, but must be used carefully. ⚠️" },
+    ],
+  },
+  {
+    id: 5,
+    user: "Farmer Friend",
+    text: "I am covering my wheat fields with straw for winter protection. ❄️",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Good idea!", response: "Yes, it keeps soil warm and prevents frost damage." },
+      { text: "Is it necessary?", response: "Absolutely, winter protection improves yield. 🌾" },
+    ],
+  },
+  {
+    id: 6,
+    user: "Farmer Friend",
+    text: "Humus seems to be working better than chemical fertilizers. My plants are greener. 🌱",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Stick with humus", response: "Yes, organic matter keeps soil fertile for long." },
+      { text: "Use mix of both", response: "A combination works well but monitor carefully. ⚖️" },
+    ],
+  },
+  {
+    id: 7,
+    user: "Farmer Friend",
+    text: "Pumpkins are growing nicely. 🎃 Planning to harvest soon.",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Harvest carefully", response: "Yes, I will avoid bruising the fruits." },
+      { text: "Leave them for more days", response: "Waiting a few days will make them sweeter." },
+    ],
+  },
+  {
+    id: 8,
+    user: "Farmer Friend",
+    text: "Banana trees are flowering beautifully. 🌴",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Great! Keep soil moist", response: "Yes, bananas need constant moisture. 💧" },
+      { text: "Check for pests", response: "Already monitoring, no pests detected yet. 🐞" },
+    ],
+  },
+  {
+    id: 9,
+    user: "Farmer Friend",
+    text: "Wind is strong today, covering some crops. 💨 Be careful!",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Secure crops", response: "Yes, tied them to stakes to prevent damage." },
+      { text: "Let them be", response: "Will monitor closely, hope they survive. 🌱" },
+    ],
+  },
+  {
+    id: 10,
+    user: "Farmer Friend",
+    text: "Weather forecast says rain tomorrow 🌧️. Need to protect my tomato plants.",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Cover them with plastic", response: "Yes, prevents waterlogging and rot." },
+      { text: "Let them rain", response: "Might be risky, need drainage ready." },
+    ],
+  },
+  {
+    id: 11,
+    user: "Farmer Friend",
+    text: "Low harvest this season. 😔 But I won’t lose hope.",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Stay positive!", response: "Yes, next season will be better." },
+      { text: "Try crop rotation", response: "Good idea, rotation improves soil fertility. 🌾" },
+    ],
+  },
+  {
+    id: 12,
+    user: "Farmer Friend",
+    text: "I am planning to plant legumes to enrich soil nitrogen. 🌱",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Good choice", response: "Yes, legumes improve soil naturally." },
+      { text: "Use fertilizer too", response: "Minimal fertilizer is okay with legumes." },
+    ],
+  },
+  {
+    id: 13,
+    user: "Farmer Friend",
+    text: "I need to prune tomato plants for better yield 🍅.",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Prune carefully", response: "Yes, only remove unnecessary branches." },
+      { text: "Leave them", response: "Might affect growth and fruiting." },
+    ],
+  },
+  {
+    id: 14,
+    user: "Farmer Friend",
+    text: "I am checking soil pH before sowing next crop. 🧪",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Good practice", response: "Yes, helps in choosing the right fertilizer." },
+      { text: "Is it necessary?", response: "Absolutely, soil pH affects crop growth." },
+    ],
+  },
+  {
+    id: 15,
+    user: "Farmer Friend",
+    text: "Planning to sell surplus crops at the local market. 🏪",
+    created_at: new Date().toLocaleTimeString(),
+    options: [
+      { text: "Check prices", response: "Yes, pricing is important to get profit." },
+      { text: "Store a bit for seeds", response: "Good idea, saving seeds for next season." },
+    ],
+  },
+];
+
+let postIdCounter = 100;
+
+const FarmerFriendsAuto: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [newPost, setNewPost] = useState("");
-  const [replyText, setReplyText] = useState<{ [key: number]: string }>({});
-  const [commentText, setCommentText] = useState<{ [key: number]: string }>({});
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [waitingForReply, setWaitingForReply] = useState(true); // wait for first reply
 
-  const userEmail = localStorage.getItem("email") ?? "Unknown User";
-
-  // --------------------------- Fetch Posts ----------------------------
-  const loadPosts = async () => {
-    const res = await fetch("http://localhost:5000/farmer-posts");
-    const data = await res.json();
-    setPosts(data);
+  // Add next Farmer Friend message
+  const addNextMessage = (index: number) => {
+    if (index < AUTO_MESSAGES.length) {
+      const newPost = { ...AUTO_MESSAGES[index], id: postIdCounter++ };
+      setPosts((prev) => [newPost, ...prev]);
+      setCurrentIndex(index + 1);
+      setWaitingForReply(true); // wait for user reply
+    }
   };
 
+  // Initial message
   useEffect(() => {
-    loadPosts();
+    addNextMessage(0);
   }, []);
 
-  // --------------------------- Create Post ----------------------------
-  const createPost = async () => {
-    if (!newPost.trim()) return alert("Write something first!");
+  const handleOptionClick = (postId: number, response: string) => {
+    const userReply: Post = {
+      id: postIdCounter++,
+      user: "You",
+      text: response,
+      created_at: new Date().toLocaleTimeString(),
+    };
+    setPosts((prev) => [userReply, ...prev]);
+    setWaitingForReply(false);
 
-    await fetch("http://localhost:5000/create-post", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user: userEmail, text: newPost }),
-    });
-
-    setNewPost("");
-    loadPosts();
-  };
-
-  // --------------------------- Add Comment ----------------------------
-  const addComment = async (postId: number) => {
-    if (!commentText[postId]) return;
-
-    await fetch("http://localhost:5000/add-comment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        post_id: postId,
-        user: userEmail,
-        text: commentText[postId],
-      }),
-    });
-
-    setCommentText({ ...commentText, [postId]: "" });
-    loadPosts();
-  };
-
-  // --------------------------- Add Reply ----------------------------
-  const addReply = async (commentId: number) => {
-    if (!replyText[commentId]) return;
-
-    await fetch("http://localhost:5000/add-reply", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        comment_id: commentId,
-        user: userEmail,
-        text: replyText[commentId],
-      }),
-    });
-
-    setReplyText({ ...replyText, [commentId]: "" });
-    loadPosts();
+    // Wait 4 seconds, then send next Farmer Friend message
+    setTimeout(() => {
+      addNextMessage(currentIndex);
+    }, 4000);
   };
 
   return (
     <div style={{ padding: 30, background: "#e8f5e9", minHeight: "100vh" }}>
       <h1 style={{ color: "#1b5e20", marginBottom: 20 }}>👨‍🌾 Farmer Friends</h1>
 
-      {/* New Post Box */}
-      <div
-        style={{
-          background: "white",
-          padding: 20,
-          borderRadius: 15,
-          marginBottom: 30,
-          boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
-          width: "60%",
-        }}
-      >
-        <textarea
-          placeholder="Share your farming problem..."
-          style={{
-            width: "100%",
-            padding: 12,
-            borderRadius: 10,
-            border: "1px solid #a5d6a7",
-          }}
-          value={newPost}
-          onChange={(e) => setNewPost(e.target.value)}
-        />
-
-        <button
-          onClick={createPost}
-          style={{
-            marginTop: 10,
-            padding: "10px 20px",
-            borderRadius: 10,
-            backgroundColor: "#388e3c",
-            color: "white",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          Post
-        </button>
-      </div>
-
-      {/* Posts List */}
-      {posts.map((post) => (
+      {posts.map((post, index) => (
         <div
           key={post.id}
           style={{
-            background: "white",
+            background: post.user === "You" ? "#d0f0c0" : "white",
             padding: 20,
             borderRadius: 15,
             marginBottom: 20,
@@ -155,111 +222,41 @@ const FarmerFriends: React.FC = () => {
           </p>
           <p style={{ fontSize: "18px", marginTop: 10 }}>{post.text}</p>
 
-          {/* Comment Section */}
-          <div style={{ marginTop: 20 }}>
-            <textarea
-              placeholder="Write a comment..."
-              style={{
-                width: "100%",
-                padding: 10,
-                borderRadius: 10,
-                border: "1px solid #a5d6a7",
-              }}
-              value={commentText[post.id] || ""}
-              onChange={(e) =>
-                setCommentText({ ...commentText, [post.id]: e.target.value })
-              }
-            />
-
-            <button
-              onClick={() => addComment(post.id)}
-              style={{
-                marginTop: 5,
-                padding: "8px 15px",
-                borderRadius: 8,
-                background: "#2e7d32",
-                color: "white",
-                border: "none",
-                cursor: "pointer",
-              }}
-            >
-              Comment
-            </button>
-
-            {/* List Comments */}
-            {post.comments.map((comment) => (
+          {/* Show options only for the latest Farmer Friend post and when waiting for reply */}
+          {post.options &&
+            post.user === "Farmer Friend" &&
+            index === 0 &&
+            waitingForReply && (
               <div
-                key={comment.id}
                 style={{
                   marginTop: 15,
-                  paddingLeft: 20,
-                  borderLeft: "3px solid #81c784",
+                  display: "flex",
+                  gap: 10,
+                  flexWrap: "wrap",
                 }}
               >
-                <p>
-                  <strong>{comment.user}</strong> — {comment.created_at}
-                </p>
-                <p>{comment.text}</p>
-
-                {/* Reply Box */}
-                <textarea
-                  placeholder="Reply..."
-                  style={{
-                    width: "100%",
-                    padding: 8,
-                    borderRadius: 10,
-                    border: "1px solid #aed581",
-                    marginTop: 8,
-                  }}
-                  value={replyText[comment.id] || ""}
-                  onChange={(e) =>
-                    setReplyText({
-                      ...replyText,
-                      [comment.id]: e.target.value,
-                    })
-                  }
-                />
-
-                <button
-                  onClick={() => addReply(comment.id)}
-                  style={{
-                    marginTop: 5,
-                    padding: "6px 12px",
-                    borderRadius: 8,
-                    background: "#558b2f",
-                    color: "white",
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  Reply
-                </button>
-
-                {/* Show Replies */}
-                {comment.replies.map((r) => (
-                  <div
-                    key={r.id}
+                {post.options.map((opt, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleOptionClick(post.id, opt.response)}
                     style={{
-                      marginTop: 10,
-                      marginLeft: 20,
-                      background: "#f1f8e9",
-                      padding: 10,
-                      borderRadius: 10,
+                      padding: "8px 12px",
+                      borderRadius: 8,
+                      background: "#2e7d32",
+                      color: "white",
+                      border: "none",
+                      cursor: "pointer",
                     }}
                   >
-                    <p>
-                      <strong>{r.user}</strong> — {r.created_at}
-                    </p>
-                    <p>{r.text}</p>
-                  </div>
+                    {opt.text}
+                  </button>
                 ))}
               </div>
-            ))}
-          </div>
+            )}
         </div>
       ))}
     </div>
   );
 };
 
-export default FarmerFriends;
+export default FarmerFriendsAuto;

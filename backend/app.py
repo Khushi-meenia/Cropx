@@ -121,6 +121,32 @@ def predict():
         return jsonify({"error": str(e)})
 
 
+
+# -------------------------------------------------------
+# 🌾 LIFESPAN API — GET ALL CROPS FROM lifespan TABLE
+# -------------------------------------------------------
+@app.route("/lifespan", methods=["GET"])
+def get_lifespan():
+    """
+    Returns all crops and lifespan days from the lifespan table
+    using SQLAlchemy Session.
+    """
+    try:
+        db: Session = next(get_db())
+
+        # Execute query to get all cropname and days
+        result = db.execute("SELECT cropname, days FROM lifespan").fetchall()
+
+        # Convert result into JSON-friendly list of dicts
+        crops = [{"cropname": row[0], "days": int(row[1])} for row in result]
+
+        return jsonify(crops), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
 # RUN APP
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)

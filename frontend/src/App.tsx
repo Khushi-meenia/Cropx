@@ -8,7 +8,7 @@ import PredictCrop from "./pages/PredictCrop";
 import ChatWithAI from "./pages/ChatWithAI";
 import Lifespan from "./pages/Lifespan";
 import WeatherInfo from "./pages/WeatherInfo";
-import FarmerFriends from "./pages/FarmerFriends";
+import FarmerFriends from "./pages/farmerfriends";
 
 const App: React.FC = () => {
   const fullText = "Welcome to CropX";
@@ -85,9 +85,7 @@ const App: React.FC = () => {
           path="/life-span"
           element={
             <Lifespan
-              cropName="Tomato"
-              daysLeft={45}
-              messages={["Water daily", "Fertilize weekly", "Check for pests"]}
+             
             />
           }
         />
